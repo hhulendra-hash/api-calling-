@@ -1,7 +1,6 @@
 import requests
 
 def get_pokemon_data(pokemon_name):
-    # Convert name to lowercase to match PokéAPI requirements
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}"
     
     try:
@@ -9,14 +8,10 @@ def get_pokemon_data(pokemon_name):
         
         if response.status_code == 200:
             data = response.json()
-            
-            # Extract basic details
             name = data['name'].capitalize()
             poke_id = data['id']
             types = [t['type']['name'] for t in data['types']]
             sprite_url = data['sprites']['front_default']
-            
-            # Extract specific stats
             stats = {stat['stat']['name']: stat['base_stat'] for stat in data['stats']}
             
             print(f"--- Pokémon ID #{poke_id}: {name} ---")
@@ -32,6 +27,4 @@ def get_pokemon_data(pokemon_name):
             
     except requests.exceptions.RequestException as e:
         print(f"Network error occurred: {e}")
-
-# Test the function
 get_pokemon_data("ditto")
